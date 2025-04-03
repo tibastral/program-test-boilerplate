@@ -47,18 +47,26 @@ subscriptions arg1 =
     --     }
 
 
-init : Url.Url -> Nav.Key -> ( Model, Command restriction toMsg FrontendMsg )
+-- init : Url.Url -> Nav.Key -> ( Model, Command restriction toMsg FrontendMsg )
 init url key =
     ( { key = key
       , message = "Welcome to Lamdera! You're looking at the auto-generated base implementation. Check out src/Frontend.elm to start coding!"
       }
-    , Command.none
+    , Effect.Lamdera.sendToBackend GetMessage
     )
 
 
-update : FrontendMsg -> Model -> ( Model, Command restriction toMsg FrontendMsg )
+-- update : FrontendMsg -> Model -> ( Model, Command restriction toMsg FrontendMsg )
 update msg model =
-    (model, Command.none)
+    case msg of
+        ChangeMessage newMessage ->
+            ( { model | message = newMessage }, Command.none )
+
+        SaveTheWorld ->
+            ( model, Effect.Lamdera.sendToBackend (BackendSaveTheWorld model.message) )
+
+        _ ->
+            ( model, Command.none )
     -- case msg of
     --     UrlClicked urlRequest ->
     --         ( model, Command.none)
@@ -82,10 +90,9 @@ update msg model =
 
 updateFromBackend : ToFrontend -> Model -> ( Model, Command restriction toMsg FrontendMsg )
 updateFromBackend msg model =
-    (model, Command.none)
-    -- case msg of
-    --     NoOpToFrontend ->
-    --         ( model, Command.none )
+    case msg of
+        ChangeMessageInFrontend newMessage ->
+            ( { model | message = newMessage }, Command.none )
 
 
 view : Model -> Effect.Browser.Document FrontendMsg
@@ -99,7 +106,8 @@ view model =
                 , Attr.style "padding-top" "40px"
                 ]
                 [ Html.text model.message ]
-            , Html.button [ Events.onClick NoOpFrontendMsg, Attr.id "hello-world" ] [ Html.text "Click me" ]
+            , Html.input [ Attr.id "best-framework", Events.onInput ChangeMessage ] []
+            , Html.button [ Events.onClick SaveTheWorld, Attr.id "save-the-world" ] [ Html.text "Click me" ]
             ]
         ]
     }

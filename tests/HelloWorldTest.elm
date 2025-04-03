@@ -2,16 +2,18 @@ module HelloWorldTest exposing (tests)
 
 import Backend
 import Dict
+import Effect.Browser.Dom as Dom exposing (HtmlId)
 import Effect.Lamdera exposing (sessionIdFromString)
 import Effect.Subscription
 import Effect.Test as TF exposing (HttpResponse(..))
 import Frontend
 import Json.Decode
 import Test exposing (Test, describe)
+import Test.Html.Query
+import Test.Html.Selector
 import Time
 import Types exposing (..)
 import Url
-import Effect.Browser.Dom as Dom exposing (HtmlId)
 
 
 tests : List (TF.EndToEndTest ToBackend FrontendMsg FrontendModel ToFrontend BackendMsg BackendModel)
@@ -30,8 +32,29 @@ helloWorldTest =
             "/"
             { width = 900, height = 800 }
             (\client ->
-                [ 
-                    client.click 100 (Dom.id "hello-world")
+                [ client.input 100 (Dom.id "best-framework") "react"
+                , client.click 100 (Dom.id "save-the-world")
+                , client.checkView
+                    100
+                    (Test.Html.Query.has
+                        [ Test.Html.Selector.text "Thank you, Mario, but the slowness is in another framework"
+                        , Test.Html.Selector.text "Take that, react"
+                        ]
+                    )
+                ]
+            )
+            , TF.connectFrontend
+            10000
+            (sessionIdFromString "session2")
+            "/"
+            { width = 900, height = 800 }
+            (\client ->
+                [ client.checkView
+                    100
+                    (Test.Html.Query.has
+                        [ Test.Html.Selector.text "Take that, react"
+                        ]
+                    )
                 ]
             )
         ]
@@ -83,4 +106,4 @@ handleFileRequest _ =
 
 handleFilesRequest : { a | mimeTypes : List String } -> TF.MultipleFilesUpload
 handleFilesRequest _ =
-    TF.CancelMultipleFilesUpload 
+    TF.CancelMultipleFilesUpload

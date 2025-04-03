@@ -20,15 +20,15 @@ type FrontendMsg
     = UrlClicked Effect.Browser.UrlRequest
     | UrlChanged Url
     | NoOpFrontendMsg
-
-
+    | ChangeMessage String
+    | SaveTheWorld
 type ToBackend
-    = NoOpToBackend
-
+    = BackendSaveTheWorld String
+    | GetMessage
 
 type BackendMsg
     = NoOpBackendMsg
 
 
 type ToFrontend
-    = NoOpToFrontend
+    = ChangeMessageInFrontend String

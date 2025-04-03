@@ -27,22 +27,26 @@ subscriptions arg1 =
     Subscription.none
 
 
-init : ( Model, Command restriction toMsg BackendMsg )
+-- init : ( Model, Command restriction toMsg BackendMsg )
 init =
     ( { message = "Hello!" }
     , Command.none
     )
 
 
-update : BackendMsg -> Model -> ( Model, Command restriction toMsg BackendMsg )
+-- update : BackendMsg -> Model -> ( Model, Command restriction toMsg BackendMsg )
 update msg model =
     case msg of
         NoOpBackendMsg ->
             ( model, Command.none )
 
+thankYouMessage : String -> String
+thankYouMessage val =
+    "Thank you, Mario, but the slowness is in another framework. Take that, " ++ val
 
-updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Command restriction toMsg BackendMsg )
 updateFromFrontend sessionId clientId msg model =
     case msg of
-        NoOpToBackend ->
-            ( model, Command.none )
+        BackendSaveTheWorld val ->
+            ( {model | message = val}, Effect.Lamdera.sendToFrontend clientId (ChangeMessageInFrontend (thankYouMessage val)) )
+        GetMessage ->
+            ( model, Effect.Lamdera.sendToFrontend clientId (ChangeMessageInFrontend (thankYouMessage model.message)) )

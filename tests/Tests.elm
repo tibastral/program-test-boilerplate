@@ -5,13 +5,14 @@ import HelloWorldTest
 import Test exposing (..)
 import Types exposing (BackendModel, BackendMsg, FrontendModel, FrontendMsg, ToBackend, ToFrontend)
 
+
 appTests : Test
 appTests =
-    describe "App tests" 
-        [ describe "Hello World" (List.map TF.toTest HelloWorldTest.tests)
-        ]
+    describe "App tests" (List.map TF.toTest tests)
 
 
 tests : List (TF.EndToEndTest ToBackend FrontendMsg FrontendModel ToFrontend BackendMsg BackendModel)
 tests =
-     HelloWorldTest.tests 
+    List.concat
+        [ HelloWorldTest.tests
+        ]
