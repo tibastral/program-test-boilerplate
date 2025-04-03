@@ -1,6 +1,9 @@
 module Backend exposing (..)
 
-import Lamdera exposing (ClientId, SessionId)
+import Effect.Command as Command exposing (Command)
+import Effect.Lamdera exposing (ClientId, SessionId)
+import Lamdera
+import Effect.Subscription as Subscription exposing (Subscription)
 import Types exposing (..)
 
 
@@ -9,30 +12,37 @@ type alias Model =
 
 
 app =
-    Lamdera.backend
+    Effect.Lamdera.backend
+        Lamdera.broadcast
+        Lamdera.sendToFrontend
         { init = init
+        , subscriptions = subscriptions
         , update = update
         , updateFromFrontend = updateFromFrontend
-        , subscriptions = \m -> Sub.none
         }
 
 
-init : ( Model, Cmd BackendMsg )
+subscriptions : Model -> Subscription Command.BackendOnly BackendMsg
+subscriptions arg1 =
+    Subscription.none
+
+
+init : ( Model, Command restriction toMsg BackendMsg )
 init =
     ( { message = "Hello!" }
-    , Cmd.none
+    , Command.none
     )
 
 
-update : BackendMsg -> Model -> ( Model, Cmd BackendMsg )
+update : BackendMsg -> Model -> ( Model, Command restriction toMsg BackendMsg )
 update msg model =
     case msg of
         NoOpBackendMsg ->
-            ( model, Cmd.none )
+            ( model, Command.none )
 
 
-updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Cmd BackendMsg )
+updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Command restriction toMsg BackendMsg )
 updateFromFrontend sessionId clientId msg model =
     case msg of
         NoOpToBackend ->
-            ( model, Cmd.none )
+            ( model, Command.none )

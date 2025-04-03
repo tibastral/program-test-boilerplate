@@ -1,69 +1,93 @@
 module Frontend exposing (..)
 
-import Browser exposing (UrlRequest(..))
-import Browser.Navigation as Nav
+import Effect.Browser exposing (UrlRequest)
+import Effect.Browser.Navigation as Nav
+import Effect.Command as Command exposing (Command)
+import Effect.Lamdera
+import Effect.Subscription as Subscription exposing (Subscription)
 import Html
 import Html.Attributes as Attr
-import Lamdera
 import Types exposing (..)
 import Url
+import Lamdera
 
 
 type alias Model =
     FrontendModel
 
 
+
+-- app : Effect.Lamdera.Program () Model FrontendMsg
 app =
-    Lamdera.frontend
+    Effect.Lamdera.frontend
+        Lamdera.sendToBackend
         { init = init
-        , onUrlRequest = UrlClicked
         , onUrlChange = UrlChanged
+        , onUrlRequest = UrlClicked
+        , subscriptions = subscriptions
         , update = update
         , updateFromBackend = updateFromBackend
-        , subscriptions = \m -> Sub.none
         , view = view
         }
 
 
-init : Url.Url -> Nav.Key -> ( Model, Cmd FrontendMsg )
+subscriptions : Model -> Subscription Command.FrontendOnly FrontendMsg
+subscriptions arg1 =
+    Subscription.none
+
+    -- Effect.Lamdera.frontend
+    --     { init = init
+    --     , onUrlRequest = UrlClicked
+    --     , onUrlChange = UrlChanged
+    --     , update = update
+    --     , updateFromBackend = updateFromBackend
+    --     , subscriptions = \m -> Subscription.none
+    --     , view = view
+    --     }
+
+
+init : Url.Url -> Nav.Key -> ( Model, Command restriction toMsg FrontendMsg )
 init url key =
     ( { key = key
       , message = "Welcome to Lamdera! You're looking at the auto-generated base implementation. Check out src/Frontend.elm to start coding!"
       }
-    , Cmd.none
+    , Command.none
     )
 
 
-update : FrontendMsg -> Model -> ( Model, Cmd FrontendMsg )
+update : FrontendMsg -> Model -> ( Model, Command restriction toMsg FrontendMsg )
 update msg model =
-    case msg of
-        UrlClicked urlRequest ->
-            case urlRequest of
-                Internal url ->
-                    ( model
-                    , Nav.pushUrl model.key (Url.toString url)
-                    )
+    (model, Command.none)
+    -- case msg of
+    --     UrlClicked urlRequest ->
+    --         ( model, Command.none)
+    --         -- case urlRequest of
+    --         --     Effect.Browser.Internal url ->
+    --         --         ( model
+    --         --         , Effect.Browser.Navigation.pushUrl model.key (Url.toString url)
+    --         --         )
 
-                External url ->
-                    ( model
-                    , Nav.load url
-                    )
+    --         --     Effect.Browser.External url ->
+    --         --         ( model
+    --         --         , Effect.Browser.Navigation.load url
+    --         --         )
 
-        UrlChanged url ->
-            ( model, Cmd.none )
+    --     UrlChanged url ->
+    --         ( model, Command.none )
 
-        NoOpFrontendMsg ->
-            ( model, Cmd.none )
+    --     NoOpFrontendMsg ->
+    --         ( model, Command.none )
 
 
-updateFromBackend : ToFrontend -> Model -> ( Model, Cmd FrontendMsg )
+updateFromBackend : ToFrontend -> Model -> ( Model, Command restriction toMsg FrontendMsg )
 updateFromBackend msg model =
-    case msg of
-        NoOpToFrontend ->
-            ( model, Cmd.none )
+    (model, Command.none)
+    -- case msg of
+    --     NoOpToFrontend ->
+    --         ( model, Command.none )
 
 
-view : Model -> Browser.Document FrontendMsg
+view : Model -> Effect.Browser.Document FrontendMsg
 view model =
     { title = ""
     , body =
