@@ -1,18 +1,14 @@
-Of course! Here’s the fun and emoji-enhanced English version of your README, following the ADDIE structure:
-
-⸻
-
 🚀 Lamdera Program-Test Boilerplate
 
 Welcome to the ultimate starter kit for writing end-to-end tests in Lamdera with program-test!
-Want to test everything — from user clicks to backend logic? You’re in the right place. 🔍🧪
+Want to test everything — from user clicks to backend logic? You're in the right place. 🔍🧪
 
 ⸻
 
 🧠 Analysis – What is program-test?
 
 program-test is a powerful end-to-end testing framework for Lamdera.
-But here’s the twist: no black magic, no browser automation — just pure Elm 💚
+But here's the twist: no black magic, no browser automation — just pure Elm 💚
 And yes, you can actually see your tests run.
 
 ⸻
@@ -24,7 +20,9 @@ No need to treat it like a separate beast.
 
 ✅ Run it like any other test:
 
+```
 elm-test-rs --compiler lamdera
+```
 
 ✅ It integrates perfectly into your existing test suite 🧵
 
@@ -32,38 +30,44 @@ elm-test-rs --compiler lamdera
 
 🛠️ Development – Watch Your Tests in Action 🎬
 
-Here’s where program-test shines: you can see everything your test does.
-It’s like an interactive replay of your app under test.
-	1.	Start the Lamdera dev server:
+Here's where program-test shines: you can see everything your test does.
+It's like an interactive replay of your app under test.
+1. Start the Lamdera dev server:
 
+```
 lamdera live
+```
 
-	2.	Open your browser at:
+2. Open your browser at:
 
+```
 http://localhost:8000/tests/TestsRunner.elm
+```
 
 🖼️ There, you can:
-	•	Watch your tests step by step
-	•	See what the user would see
-	•	Debug layout or rendering issues easily
+- Watch your tests step by step
+- See what the user would see
+- Debug layout or rendering issues easily
 
 ⸻
 
 🚀 Implementation – Getting Started 🧪
-	1.	✍️ Write your tests in the tests folder (start from HelloWorldTest.elm)
-	2.	🧩 Import them in tests/Tests.elm
-	3.	🧪 Run them with:
+1. ✍️ Write your tests in the tests folder (start from HelloWorldTest.elm)
+2. 🧩 Import them in tests/Tests.elm
+3. 🧪 Run them with:
 
+```
 elm-test-rs --compiler lamdera
+```
 
-	4.	👀 View them visually at: http://localhost:8000/tests/TestsRunner.elm
+4. 👀 View them visually at: http://localhost:8000/tests/TestsRunner.elm
 
 ⸻
 
 🧑‍🏫 Example Test
 
-Here’s a typical end-to-end test:
-``` elm
+Here's a typical end-to-end test:
+```elm
 helloWorldTest : TF.EndToEndTest ToBackend FrontendMsg FrontendModel ToFrontend BackendMsg BackendModel
 helloWorldTest =
     TF.start "Test Hello World"
@@ -87,29 +91,27 @@ helloWorldTest =
                 ]
             )
         ]
-
 ```
 
-
 ⸻
 
-✅ Implementation (continued) – Why It Rocks
+✅ Why It Rocks
 
-🌍 Complete testing: From UI to backend, everything’s covered
+🌍 Complete testing: From UI to backend, everything's covered
 🕵️‍♂️ Visual verification: See exactly what your users will see
 🧘 Peace of mind: Know it works before you deploy
-⚡ Blazing fast: Pure Elm = Pure functions = Pure speed
+⚡ Blazing fast: Pure Elm = Pure functions = Faster than ![Koenigsegg Jesko Absolut](voiture-de-course.png)
 
 ⸻
 
-📈 Evaluation – What’s Next? 🎉
+📈 What's Next? 🎉
 
 Explore the example tests, duplicate them, tweak them, break things and watch them break beautifully 😄
-You’ll be building robust apps with joy, and it shows.
+You'll be building robust apps with joy, and it shows.
 
 ⸻
 
-💡 Pro Tip: Program-tests are so fast and fun you might find yourself addicted. Don’t say we didn’t warn you. 😉
+💡 Pro Tip: Program-tests are so fast and fun you might find yourself addicted. Don't say we didn't warn you. 😉
 
 ⸻
 

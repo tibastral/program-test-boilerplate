@@ -3,9 +3,10 @@ module HelloWorldTest exposing (tests)
 import Backend
 import Dict
 import Effect.Browser.Dom as Dom exposing (HtmlId)
-import Effect.Lamdera exposing (sessionIdFromString)
+import Effect.Lamdera exposing (ClientId, sessionIdFromString)
 import Effect.Subscription
 import Effect.Test as TF exposing (HttpResponse(..))
+import Expect
 import Frontend
 import Json.Decode
 import Test exposing (Test, describe)
@@ -43,17 +44,44 @@ helloWorldTest =
                     )
                 ]
             )
-            , TF.connectFrontend
-            10000
+        , TF.connectFrontend
+            5000
             (sessionIdFromString "session2")
             "/"
             { width = 900, height = 800 }
             (\client ->
                 [ client.checkView
-                    100
+                    5000
                     (Test.Html.Query.has
                         [ Test.Html.Selector.text "Take that, react"
                         ]
+                    )
+                , TF.checkBackend
+                    10000
+                    (\backendModel ->
+                        if backendModel.message == "react" then
+                            Ok ()
+
+                        else
+                            Err "Message is not correct"
+                    )
+                , TF.checkState
+                    15000
+                    (\state ->
+                        if state.backend.message == "react" then
+                            Ok ()
+
+                        else
+                            Err "Message is not correct"
+                    )
+                , client.checkModel
+                    20000
+                    (\frontendModel ->
+                        if frontendModel.message == "Thank you, Mario, but the slowness is in another framework. Take that, react" then
+                            Ok ()
+
+                        else
+                            Err "Message is not correct"
                     )
                 ]
             )
