@@ -98,7 +98,7 @@ helloWorldTest =
 ✅ Why It Rocks
 
 🌍 Complete testing: From UI to backend, everything's covered
-🕵️‍♂️ Visual verification: See exactly what your users will see ![Koenigsegg Jesko Absolut](voiture-de-course.png)
+🕵️‍♂️ Visual verification: See exactly what your users will see ![Koenigsegg Jesko Absolut](screenshot.png)
 🧘 Peace of mind: Know it works before you deploy
 ⚡ Blazing fast: Pure Elm = Pure functions = Faster than ![Koenigsegg Jesko Absolut](voiture-de-course.png)
 
