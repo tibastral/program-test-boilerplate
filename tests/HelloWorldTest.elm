@@ -3,13 +3,12 @@ module HelloWorldTest exposing (tests)
 -- Essential imports for our end-to-end test
 import Backend
 import Dict
-import Effect.Browser.Dom as Dom exposing (HtmlId)
-import Effect.Lamdera exposing (ClientId, sessionIdFromString)
+import Effect.Browser.Dom as Dom
+import Effect.Lamdera exposing (sessionIdFromString)
 -- 🛠️ Lamdera program-test framework
 import Effect.Test as TF exposing (HttpResponse(..))
 import Frontend
 import Json.Decode
-import Test exposing (Test, describe)
 import Test.Html.Query
 import Test.Html.Selector
 import Time
