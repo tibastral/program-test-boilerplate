@@ -9,6 +9,7 @@ import Html
 import Html.Attributes as Attr
 import Types exposing (..)
 import Url
+import Html.Events as Events
 import Lamdera
 
 
@@ -98,6 +99,7 @@ view model =
                 , Attr.style "padding-top" "40px"
                 ]
                 [ Html.text model.message ]
+            , Html.button [ Events.onClick NoOpFrontendMsg, Attr.id "hello-world" ] [ Html.text "Click me" ]
             ]
         ]
     }
